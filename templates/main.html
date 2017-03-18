@@ -42,13 +42,15 @@
 </head>
 <body class="{{ current_index }}">
   {% if '.webm' in file_url %}
-    <video autoplay controls="controls" name="media">
+    <a href="next" class="next"></a>
+    <a href="previous" class="previous"></a>
+    <video autoplay loop controls="true">
       <source src="{{ url_for('static', filename=file_url) }}" type="video/webm">
     </video>
   {% else %}
     <img src="{{ url_for('static', filename=file_url) }}" class="photo"/>
+    <a href="next" class="next"></a>
+    <a href="previous" class="previous"></a>
   {% endif %}
-  <a href="next" class="next"></a>
-  <a href="previous" class="previous"></a>
 </body>
 </html>

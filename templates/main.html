@@ -5,26 +5,50 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>LocalPhotos</title>
-  <link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+  <style type="text/css">a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video{margin:0;padding:0;border:0;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:'';content:none}table{border-collapse:collapse;border-spacing:0}</style>
   <style>
     body {
       background: #101010;
-
+      display: block;
+      margin: 0;
     }
-    .photo {
-      width: 100%;
-      height: auto;
+    .next, .previous {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+      width: 50%;
+      height: 100%;
+      display: block;
+      position: absolute;
+    }
+    .next {
+      left: 50%;
+    }
+    .photo, video {
+      object-fit: contain;
       max-height: 100%;
       max-width: 100%;
+      width: 100%;
+      height: auto;
+      position: absolute;
+      top: 50%;
+      transform: translate(0,-50%);
     }
   </style>
 </head>
-<body>
-  <a href="next">
-    <img src="/static/photos/{{ photo_url }}" class="photo">
-  </a>
-  <script>
-        
-  </script>
+<body class="{{ current_index }}">
+  {% if '.webm' in file_url %}
+    <video autoplay controls="controls" name="media">
+      <source src="{{ url_for('static', filename=file_url) }}" type="video/webm">
+    </video>
+  {% else %}
+    <img src="{{ url_for('static', filename=file_url) }}" class="photo"/>
+  {% endif %}
+  <a href="next" class="next"></a>
+  <a href="previous" class="previous"></a>
 </body>
 </html>

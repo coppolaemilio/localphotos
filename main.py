@@ -1,10 +1,31 @@
 #!/usr/bin/python
 import os
+import ctypes
 from flask import Flask, render_template, url_for, redirect
 app = Flask(__name__)
 app.debug = True
 
-file_list = os.listdir(app.static_folder)
+
+path = app.static_folder
+file_list = []
+
+def is_hidden(filepath):
+    name = os.path.basename(os.path.abspath(filepath))
+    return name.startswith('.') or has_hidden_attribute(filepath)
+
+def has_hidden_attribute(filepath):
+    try:
+        attrs = ctypes.windll.kernel32.GetFileAttributesW(unicode(filepath))
+        assert attrs != -1
+        result = bool(attrs & 2)
+    except (AttributeError, AssertionError):
+        result = False
+    return result
+
+for item in os.listdir(path):
+    if not is_hidden(item):
+        file_list.append(item)
+
 current_index = 0
 current_file = file_list[current_index]
 

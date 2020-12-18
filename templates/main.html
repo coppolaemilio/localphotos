@@ -40,7 +40,7 @@
     .photo, video {
       object-fit: contain;
       max-height: 100%;
-      max-width: 90%;
+      max-width: 100%;
       width: 100%;
       height: auto;
       position: absolute;
@@ -71,5 +71,26 @@
       <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg>
     </a>
   {% endif %}
+
+
+  <script>
+    document.onkeypress = e => {
+      if (e.keyCode == 108) {
+        window.location = "/next";
+      } else if (e.keyCode == 106) {
+        window.location = "/previous";
+      } else if (e.keyCode == 107) {
+        const video = document.querySelector("video");
+
+        if (video) {
+          if (video.paused) {
+            video.play();
+          } else {
+            video.pause();
+          }
+        }
+      }
+    }
+  </script>
 </body>
 </html>

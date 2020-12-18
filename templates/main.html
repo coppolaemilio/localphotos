@@ -20,13 +20,22 @@
       -ms-user-select: none;
       user-select: none;
       -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-      width: 50%;
+      width: 20%;
       height: 100%;
-      display: block;
+      display: flex;
+      align-items: center;
       position: absolute;
+      box-sizing: border-box;
+      padding: .2rem;
+      color: transparent;
+      transition: color .5s;
     }
     .next {
-      left: 50%;
+      left: 80%;
+      justify-content: flex-end;
+    }
+    .next:hover, .previous:hover {
+      color: #777777;
     }
     .photo, video {
       object-fit: contain;
@@ -36,21 +45,52 @@
       height: auto;
       position: absolute;
       top: 50%;
-      transform: translate(0,-50%);
+      left: 50%;
+      transform: translate(-50%,-50%);
+      outline: none;
     }
   </style>
 </head>
 <body class="{{ current_index }}">
   {% if '.webm' in file_url %}
-    <a href="next" class="next"></a>
-    <a href="previous" class="previous"></a>
+    <a href="next" class="next">
+      <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
+    </a>
+    <a href="previous" class="previous">
+      <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg>
+    </a>
     <video autoplay loop controls="true">
       <source src="{{ url_for('static', filename=file_url) }}" type="video/webm">
     </video>
   {% else %}
     <img src="{{ url_for('static', filename=file_url) }}" class="photo"/>
-    <a href="next" class="next"></a>
-    <a href="previous" class="previous"></a>
+    <a href="next" class="next">
+      <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
+    </a>
+    <a href="previous" class="previous">
+      <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg>
+    </a>
   {% endif %}
+
+
+  <script>
+    document.onkeypress = e => {
+      if (e.keyCode == 108) {
+        window.location = "/next";
+      } else if (e.keyCode == 106) {
+        window.location = "/previous";
+      } else if (e.keyCode == 107) {
+        const video = document.querySelector("video");
+
+        if (video) {
+          if (video.paused) {
+            video.play();
+          } else {
+            video.pause();
+          }
+        }
+      }
+    }
+  </script>
 </body>
 </html>
